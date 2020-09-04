@@ -1,0 +1,21 @@
+.maindiventire{
+    height: 100%;
+    width: 100%;
+    background-image: url(assets/background3.jpg);
+    image-resolution: initial;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+   
+}
+.commonmain{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    margin-top: 90px;
+    
+   
+    
+}
