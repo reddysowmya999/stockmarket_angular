@@ -1,6 +1,11 @@
+import { StockExchangeService } from './../stock-exchange.service';
+import { StockExchange } from './../stockexchange';
 import { Component, OnInit } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import {LoginserviceService} from '../loginservice.service';
+import { ActivatedRoute} from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-addexchange',
   templateUrl: './addexchange.component.html',
@@ -8,9 +13,13 @@ import {LoginserviceService} from '../loginservice.service';
 })
 export class AddexchangeComponent implements OnInit {
   islogged:string;
+  stockExchange : StockExchange;
 
   constructor(private loginserviceService: LoginserviceService,
-    private router: Router){
+    private router: Router, private stockExchangeService: StockExchangeService){
+
+    this.stockExchange = new StockExchange();
+
   }
 
   getLoginDetails(): string {
@@ -25,6 +34,14 @@ export class AddexchangeComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
+  }
+
+  onSubmit() {
+    this.stockExchangeService.save(this.stockExchange).subscribe(result => this.gotoStockExchangesList());
+  }
+
+  gotoStockExchangesList() {
+    this.router.navigate(['/manageexchange']);
   }
 
 }
