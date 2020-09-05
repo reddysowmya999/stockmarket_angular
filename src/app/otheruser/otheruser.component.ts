@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginserviceService} from '../loginservice.service';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { User }  from './../classes/user';
+import { UserServiceService }  from './../user-service.service';
+
+
 @Component({
   selector: 'app-otheruser',
   templateUrl: './otheruser.component.html',
@@ -8,10 +12,37 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 })
 export class OtheruserComponent implements OnInit {
   islogged:string;
+  
+  user: User;
+  result : string;
+  updatepage: boolean = true;
+  success: boolean;
+  processend: boolean = false;
+  
 
   constructor(private loginserviceService: LoginserviceService,
-    private router: Router){
+    private router: Router,
+    private userService : UserServiceService){
+      this.user= new User();
   }
+  async onSubmit(){
+    let res;
+    res= await this.userService.updateUser (this.user.userName,this.user.password,
+      this.user.email);
+      if(res==null){
+        this.updatepage=false;
+        this.processend=true;
+        this.success = false;
+        console.log("failure");
+      }
+      else{
+        this.updatepage=false;
+        this.processend=true;
+        this.success = true;
+        
+      }
+    }
+ 
 
   getLoginDetails(): string {
     this.islogged= this.loginserviceService.currentUserValue();
@@ -26,4 +57,7 @@ export class OtheruserComponent implements OnInit {
       return;
     }
   }
+
+  
+
 }
