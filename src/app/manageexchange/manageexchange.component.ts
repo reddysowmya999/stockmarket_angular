@@ -1,3 +1,5 @@
+import { StockExchangeService } from './../stock-exchange.service';
+import { StockExchange } from 'src/app/stockexchange';
 import { Component, OnInit } from '@angular/core';
 import {LoginserviceService} from '../loginservice.service';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
@@ -8,9 +10,10 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 })
 export class ManageexchangeComponent implements OnInit {
   islogged:string;
+  stockExchanges :StockExchange[];
 
   constructor(private loginserviceService: LoginserviceService,
-    private router: Router){
+    private router: Router, private stockexchangeService: StockExchangeService){
   }
 
   getLoginDetails(): string {
@@ -25,5 +28,14 @@ export class ManageexchangeComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
+
+    this.stockexchangeService.findAll().subscribe(data => {
+    this.stockExchanges = data;});
+
+  }
+
+  companyList(id : number) {
+    this.router.navigate(['stockexchange-companyList',id]);
+
   }
 }
